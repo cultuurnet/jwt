@@ -9,7 +9,7 @@ use Lcobucci\JWT\Token as Jwt;
 use Lcobucci\JWT\ValidationData;
 use ValueObjects\String\String as StringLiteral;
 
-class JwtDecoderService implements JWTDecoderServiceInterface
+class JwtDecoderService implements JwtDecoderServiceInterface
 {
     /**
      * @var Parser
