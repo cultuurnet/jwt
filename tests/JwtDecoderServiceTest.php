@@ -87,7 +87,11 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->publicKeyString = file_get_contents(__DIR__ . '/samples/public.pem');
-        $this->tokenString = file_get_contents(__DIR__ . '/samples/token.txt');
+
+        $this->tokenString = rtrim(
+            file_get_contents(__DIR__ . '/samples/token.txt'),
+            '\\r\\n'
+        );
 
         $this->tokenHeaders = [
             "typ" => "JWT",
@@ -98,22 +102,18 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
             "uid" => "1",
             "nick" => "foo",
             "email" => "foo@bar.com",
-            "token" => "token123",
-            "secret" => "secret456",
             "iss" => "http://culudb-jwt-provider.dev",
-            "exp" => "1461785150",
-            "nbf" => "1461785150",
+            "exp" => "1461829061",
+            "nbf" => "1461829061",
         ];
 
         $this->tokenClaimsAsValueObjects = [
             "uid" => new Basic('uid', '1'),
             "nick" => new Basic('nick', 'foo'),
             "email" => new Basic('email', 'foo@bar.com'),
-            "token" => new Basic('token', 'token123'),
-            "secret" => new Basic('secret', 'secret456'),
             "iss" => new EqualsTo('iss', 'http://culudb-jwt-provider.dev'),
-            "exp" =>  new GreaterOrEqualsTo('exp', '1461785150'),
-            "nbf" => new LesserOrEqualsTo('nbf', '1461785150'),
+            "exp" =>  new GreaterOrEqualsTo('exp', '1461829061'),
+            "nbf" => new LesserOrEqualsTo('nbf', '1461829061'),
         ];
 
         $this->payload = explode('.', $this->tokenString);
@@ -154,22 +154,7 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
             new StringLiteral($this->tokenString)
         );
 
-        // Comparing both tokens completely gives a diff on the payload array
-        // for some reason, while comparing both arrays does not.
-        $this->assertEquals(
-            $this->token->getPayload(),
-            $actualToken->getPayload()
-        );
-
-        $this->assertEquals(
-            $this->tokenClaims,
-            $actualToken->getClaims()
-        );
-
-        $this->assertEquals(
-            $this->tokenHeaders,
-            $actualToken->getHeaders()
-        );
+        $this->assertEquals($this->token, $actualToken);
     }
 
     /**
