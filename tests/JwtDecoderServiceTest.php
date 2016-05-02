@@ -80,6 +80,11 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
     private $publicKey;
 
     /**
+     * @var string[]
+     */
+    private $requiredCLaims;
+
+    /**
      * @var JwtDecoderService
      */
     private $decoderService;
@@ -137,11 +142,18 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
         $this->signer = new Sha256();
         $this->publicKey = new Key($this->publicKeyString);
 
+        $this->requiredCLaims = [
+            'uid',
+            'nick',
+            'email',
+        ];
+
         $this->decoderService = new JwtDecoderService(
             $this->parser,
             $this->validationData,
             $this->signer,
-            $this->publicKey
+            $this->publicKey,
+            $this->requiredCLaims
         );
     }
 
@@ -203,6 +215,37 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_can_validate_that_a_token_has_all_required_claims()
+    {
+        $decoderWithoutRequiredClaims = new JwtDecoderService(
+            $this->parser,
+            $this->validationData,
+            $this->signer,
+            $this->publicKey
+        );
+
+        // Mock a missing nick claim.
+        // This token will not have a valid signature, but claim validation does
+        // not take the signature into account.
+        $manipulatedClaims = $this->tokenClaimsAsValueObjects;
+        unset($manipulatedClaims['nick']);
+
+        $tokenWithoutNick = new Token(
+            $this->tokenHeaders,
+            $manipulatedClaims,
+            $this->signature,
+            $this->payload
+        );
+
+        $this->assertTrue($decoderWithoutRequiredClaims->validateRequiredClaims($this->token));
+        $this->assertTrue($decoderWithoutRequiredClaims->validateRequiredClaims($tokenWithoutNick));
+        $this->assertTrue($this->decoderService->validateRequiredClaims($this->token));
+        $this->assertFalse($this->decoderService->validateRequiredClaims($tokenWithoutNick));
+    }
+
+    /**
+     * @test
+     */
     public function it_can_verify_a_token_signature()
     {
         $this->assertTrue(
@@ -229,6 +272,29 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
             $this->decoderService->verifySignature(
                 $this->parser->parse($manipulatedTokenString)
             )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_that_the_required_claims_are_strings()
+    {
+        $required = [
+            new Basic('uid', null)
+        ];
+
+        $this->setExpectedException(
+            \InvalidArgumentException::class,
+            'All required claims should be strings.'
+        );
+
+        new JwtDecoderService(
+            $this->parser,
+            $this->validationData,
+            $this->signer,
+            $this->publicKey,
+            $required
         );
     }
 }
