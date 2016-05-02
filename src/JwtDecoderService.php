@@ -32,21 +32,35 @@ class JwtDecoderService implements JwtDecoderServiceInterface
     private $publicKey;
 
     /**
+     * @var string[]
+     */
+    private $requiredClaims;
+
+    /**
      * @param Parser $parser
      * @param ValidationData $validationData
      * @param Signer $signer
      * @param Key $publicKey
+     * @param string[] $requiredClaims
      */
     public function __construct(
         Parser $parser,
         ValidationData $validationData,
         Signer $signer,
-        Key $publicKey
+        Key $publicKey,
+        array $requiredClaims = []
     ) {
         $this->parser = $parser;
         $this->validationData = $validationData;
         $this->signer = $signer;
         $this->publicKey = $publicKey;
+        $this->requiredClaims = $requiredClaims;
+
+        if (count($requiredClaims) !== count(array_filter($this->requiredClaims, 'is_string'))) {
+            throw new \InvalidArgumentException(
+                "All required claims should be strings."
+            );
+        }
     }
 
     /**
@@ -67,6 +81,21 @@ class JwtDecoderService implements JwtDecoderServiceInterface
     public function validateData(Jwt $jwt)
     {
         return $jwt->validate($this->validationData);
+    }
+
+    /**
+     * @param Jwt $jwt
+     * @return bool
+     */
+    public function validateRequiredClaims(Jwt $jwt)
+    {
+        foreach ($this->requiredClaims as $claim) {
+            if (!$jwt->hasClaim($claim)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
