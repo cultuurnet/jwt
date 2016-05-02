@@ -23,5 +23,11 @@ interface JwtDecoderServiceInterface
      * @param Jwt $jwt
      * @return bool
      */
+    public function validateRequiredClaims(Jwt $jwt);
+
+    /**
+     * @param Jwt $jwt
+     * @return bool
+     */
     public function verifySignature(Jwt $jwt);
 }
