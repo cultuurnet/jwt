@@ -82,6 +82,7 @@ class JwtEncoderService implements JwtEncoderServiceInterface
         $time = $dateTime->getTimestamp();
 
         $jwt = $builder
+            ->setIssuedAt($time)
             ->setExpiration($time + $this->exp->toNative())
             ->setNotBefore($time + $this->nbf->toNative())
             ->sign(
