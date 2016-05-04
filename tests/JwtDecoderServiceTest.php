@@ -108,6 +108,7 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
             "nick" => "foo",
             "email" => "foo@bar.com",
             "iss" => "http://culudb-jwt-provider.dev",
+            "iat" => "1461829061",
             "exp" => "1461829061",
             "nbf" => "1461829061",
         ];
@@ -117,6 +118,7 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
             "nick" => new Basic('nick', 'foo'),
             "email" => new Basic('email', 'foo@bar.com'),
             "iss" => new EqualsTo('iss', 'http://culudb-jwt-provider.dev'),
+            "iat" =>  new LesserOrEqualsTo('iat', '1461829061'),
             "exp" =>  new GreaterOrEqualsTo('exp', '1461829061'),
             "nbf" => new LesserOrEqualsTo('nbf', '1461829061'),
         ];

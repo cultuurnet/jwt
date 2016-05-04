@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "cultuurnet/clock": "~0.1",
         "lcobucci/jwt": "~3.1",
         "nicolopignatelli/valueobjects": "~2.0"
     },
