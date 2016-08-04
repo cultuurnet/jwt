@@ -8,6 +8,7 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token as Jwt;
 use Lcobucci\JWT\ValidationData;
 use ValueObjects\String\String as StringLiteral;
+use JwtParserException;
 
 class JwtDecoderService implements JwtDecoderServiceInterface
 {
@@ -69,9 +70,13 @@ class JwtDecoderService implements JwtDecoderServiceInterface
      */
     public function parse(StringLiteral $tokenString)
     {
-        return $this->parser->parse(
-            $tokenString->toNative()
-        );
+        try {
+            return $this->parser->parse(
+                $tokenString->toNative()
+            );
+        } catch (\InvalidArgumentException $e) {
+            throw new JwtParserException($e);
+        }
     }
 
     /**
