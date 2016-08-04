@@ -8,7 +8,6 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token as Jwt;
 use Lcobucci\JWT\ValidationData;
 use ValueObjects\String\String as StringLiteral;
-use JwtParserException;
 
 class JwtDecoderService implements JwtDecoderServiceInterface
 {
