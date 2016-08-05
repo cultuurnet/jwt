@@ -299,4 +299,28 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
             $required
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_rethrows_a_jwtparserexception_when_parse_fails()
+    {
+        $this->setExpectedException(
+            JwtParserException::class
+        );
+
+        $this->decoderService = new JwtDecoderService(
+            $this->parser,
+            $this->validationData,
+            $this->signer,
+            $this->publicKey
+        );
+
+        $this->tokenString = new StringLiteral(str_repeat(rtrim(
+            file_get_contents(__DIR__ . '/samples/token.txt'),
+            '\\r\\n'
+        ), 2));
+
+        $this->decoderService->parse($this->tokenString);
+    }
 }
