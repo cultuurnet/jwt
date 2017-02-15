@@ -4,7 +4,6 @@ namespace CultuurNet\UDB3\Jwt;
 
 use CultuurNet\Clock\Clock;
 use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Claim;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Token as Jwt;

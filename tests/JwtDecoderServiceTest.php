@@ -15,7 +15,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Token as Jwt;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\ValidationData;
-use ValueObjects\String\String as StringLiteral;
+use ValueObjects\StringLiteral\StringLiteral;
 
 class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
 {
