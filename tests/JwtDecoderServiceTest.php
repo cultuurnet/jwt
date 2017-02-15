@@ -286,10 +286,8 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
             new Basic('uid', null)
         ];
 
-        $this->setExpectedException(
-            \InvalidArgumentException::class,
-            'All required claims should be strings.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('All required claims should be strings.');
 
         new JwtDecoderService(
             $this->parser,
@@ -305,9 +303,7 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function it_rethrows_a_jwtparserexception_when_parse_fails()
     {
-        $this->setExpectedException(
-            JwtParserException::class
-        );
+        $this->expectException(JwtParserException::class);
 
         $this->decoderService = new JwtDecoderService(
             $this->parser,
