@@ -3,7 +3,7 @@
 namespace CultuurNet\UDB3\Jwt;
 
 use Lcobucci\JWT\Token as Jwt;
-use ValueObjects\String\String as StringLiteral;
+use ValueObjects\StringLiteral\StringLiteral;
 
 interface JwtDecoderServiceInterface
 {
