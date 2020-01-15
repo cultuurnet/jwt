@@ -3,6 +3,7 @@
 namespace CultuurNet\UDB3\Jwt\Symfony\Authentication;
 
 use CultuurNet\UDB3\Jwt\JwtDecoderServiceInterface;
+use CultuurNet\UDB3\Jwt\Udb3Token;
 use Lcobucci\JWT\Token as Jwt;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -42,7 +43,7 @@ class JwtAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(
             $this->authenticationProvider->supports(
                 new JwtUserToken(
-                    new Jwt()
+                    new Udb3Token(new Jwt())
                 )
             )
         );
@@ -68,7 +69,7 @@ class JwtAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function it_throws_an_exception_when_the_jwt_signature_is_invalid()
     {
-        $jwt = new Jwt();
+        $jwt = new Udb3Token(new Jwt());
         $token = new JwtUserToken($jwt);
 
         $this->decoderService->expects($this->once())
@@ -89,7 +90,7 @@ class JwtAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function it_throws_an_exception_when_the_jwt_data_is_invalid()
     {
-        $jwt = new Jwt();
+        $jwt = new Udb3Token(new Jwt());
         $token = new JwtUserToken($jwt);
 
         $this->decoderService->expects($this->once())
@@ -115,7 +116,7 @@ class JwtAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function it_throws_an_exception_when_the_jwt_is_missing_required_claims()
     {
-        $jwt = new Jwt();
+        $jwt = new Udb3Token(new Jwt());
         $token = new JwtUserToken($jwt);
 
         $this->decoderService->expects($this->once())
@@ -144,9 +145,9 @@ class JwtAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_returns_an_authenticated_token_when_the_jwt_is_valid()
+    public function it_returns_an_authenticated_token_when_the_jwt_is_valid(): void
     {
-        $jwt = new Jwt();
+        $jwt = new Udb3Token(new Jwt());
         $token = new JwtUserToken($jwt);
 
         $this->decoderService->expects($this->once())

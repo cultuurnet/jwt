@@ -2,6 +2,7 @@
 
 namespace CultuurNet\UDB3\Jwt\Symfony\Authentication;
 
+use CultuurNet\UDB3\Jwt\Udb3Token;
 use Lcobucci\JWT\Token as Jwt;
 
 class JwtUserTokenTest extends \PHPUnit_Framework_TestCase
@@ -11,11 +12,13 @@ class JwtUserTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function it_returns_the_jwt_as_credentials()
     {
-        $jwt = new Jwt(
-            ['alg' => 'none'],
-            [],
-            null,
-            $payload = ['header', 'payload']
+        $jwt = new Udb3Token(
+            new Jwt(
+                ['alg' => 'none'],
+                [],
+                null,
+                $payload = ['header', 'payload']
+            )
         );
 
         $jwtUserToken = new JwtUserToken($jwt);
@@ -28,7 +31,7 @@ class JwtUserTokenTest extends \PHPUnit_Framework_TestCase
      */
     public function it_can_be_set_as_authenticated()
     {
-        $jwtUserToken = new JwtUserToken(new Jwt(), true);
+        $jwtUserToken = new JwtUserToken(new Udb3Token(new Jwt()), true);
         $this->assertTrue($jwtUserToken->isAuthenticated());
     }
 }

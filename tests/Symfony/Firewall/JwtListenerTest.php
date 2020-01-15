@@ -4,6 +4,7 @@ namespace CultuurNet\UDB3\Jwt\Symfony\Firewall;
 
 use CultuurNet\UDB3\Jwt\Symfony\Authentication\JwtUserToken;
 use CultuurNet\UDB3\Jwt\JwtDecoderServiceInterface;
+use CultuurNet\UDB3\Jwt\Udb3Token;
 use Lcobucci\JWT\Token as Jwt;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -101,11 +102,13 @@ class JwtListenerTest extends \PHPUnit_Framework_TestCase
     {
         $tokenString = 'headers.payload.signature';
 
-        $jwt = new Jwt(
-            ['alg' => 'none'],
-            [],
-            null,
-            ['headers', 'payload']
+        $jwt = new Udb3Token(
+            new Jwt(
+                ['alg' => 'none'],
+                [],
+                null,
+                ['headers', 'payload']
+            )
         );
 
         $token = new JwtUserToken($jwt);
@@ -151,11 +154,13 @@ class JwtListenerTest extends \PHPUnit_Framework_TestCase
     {
         $tokenString = 'headers.payload.signature';
 
-        $jwt = new Jwt(
-            ['alg' => 'none'],
-            [],
-            null,
-            ['headers', 'payload']
+        $jwt = new Udb3Token(
+            new Jwt(
+                ['alg' => 'none'],
+                [],
+                null,
+                ['headers', 'payload']
+            )
         );
 
         $token = new JwtUserToken($jwt);

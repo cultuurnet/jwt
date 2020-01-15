@@ -2,31 +2,24 @@
 
 namespace CultuurNet\UDB3\Jwt\Symfony\Authentication;
 
-use Lcobucci\JWT\Token as Jwt;
+use CultuurNet\UDB3\Jwt\Udb3Token;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 class JwtUserToken extends AbstractToken
 {
     /**
-     * @var Jwt
+     * @var Udb3Token
      */
     private $jwt;
 
-    /**
-     * @param Jwt $jwt
-     * @param bool $authenticated
-     */
-    public function __construct(Jwt $jwt, $authenticated = false)
+    public function __construct(Udb3Token $jwt, bool $authenticated = false)
     {
         parent::__construct();
         $this->setAuthenticated($authenticated);
         $this->jwt = $jwt;
     }
 
-    /**
-     * @return Jwt
-     */
-    public function getCredentials()
+    public function getCredentials(): Udb3Token
     {
         return $this->jwt;
     }
