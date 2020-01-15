@@ -2,8 +2,8 @@
 
 namespace CultuurNet\UDB3\Jwt\Silex;
 
-use CultuurNet\SymfonySecurityJwt\Authentication\JwtAuthenticationProvider;
-use CultuurNet\SymfonySecurityJwt\Firewall\JwtListener;
+use CultuurNet\UDB3\Jwt\Symfony\Authentication\JwtAuthenticationProvider;
+use CultuurNet\UDB3\Jwt\Symfony\Firewall\JwtListener;
 use CultuurNet\UDB3\Jwt\FallbackJwtDecoder;
 use CultuurNet\UDB3\Jwt\JwtDecoderService;
 use Lcobucci\JWT\Parser;
