@@ -62,7 +62,7 @@ class JwtDecoderService implements JwtDecoderServiceInterface
         }
     }
 
-    public function parse(StringLiteral $tokenString): Udb3TokenInterface
+    public function parse(StringLiteral $tokenString): Udb3Token
     {
         try {
             $token = $this->parser->parse($tokenString->toNative());
@@ -72,12 +72,12 @@ class JwtDecoderService implements JwtDecoderServiceInterface
         }
     }
 
-    public function validateData(Udb3TokenInterface $udb3Token): bool
+    public function validateData(Udb3Token $udb3Token): bool
     {
         return $udb3Token->jwtToken()->validate($this->validationData);
     }
 
-    public function validateRequiredClaims(Udb3TokenInterface $udb3Token): bool
+    public function validateRequiredClaims(Udb3Token $udb3Token): bool
     {
         foreach ($this->requiredClaims as $claim) {
             if (!$udb3Token->jwtToken()->hasClaim($claim)) {
@@ -88,7 +88,7 @@ class JwtDecoderService implements JwtDecoderServiceInterface
         return true;
     }
 
-    public function verifySignature(Udb3TokenInterface $udb3Token): bool
+    public function verifySignature(Udb3Token $udb3Token): bool
     {
         return $udb3Token->jwtToken()->verify(
             $this->signer,

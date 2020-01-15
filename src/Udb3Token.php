@@ -13,7 +13,7 @@ use Lcobucci\JWT\Token;
  * different claim name (a "dirty but
  * works" solution).
  */
-class Udb3Token implements Udb3TokenInterface
+class Udb3Token
 {
     /**
      * @var Token

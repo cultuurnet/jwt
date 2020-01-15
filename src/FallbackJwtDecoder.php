@@ -32,7 +32,7 @@ class FallbackJwtDecoder implements JwtDecoderServiceInterface
         $this->fallbackDecoder = $newDecoderService;
     }
 
-    public function parse(StringLiteral $tokenString) : Udb3TokenInterface
+    public function parse(StringLiteral $tokenString) : Udb3Token
     {
         try {
             return $this->primary->parse($tokenString);
@@ -41,7 +41,7 @@ class FallbackJwtDecoder implements JwtDecoderServiceInterface
         }
     }
 
-    public function validateData(Udb3TokenInterface $jwt) : bool
+    public function validateData(Udb3Token $jwt) : bool
     {
         if ($this->primary->validateData($jwt)) {
             return true;
@@ -50,7 +50,7 @@ class FallbackJwtDecoder implements JwtDecoderServiceInterface
         return $this->fallbackDecoder->validateData($jwt);
     }
 
-    public function validateRequiredClaims(Udb3TokenInterface $udb3Token): bool
+    public function validateRequiredClaims(Udb3Token $udb3Token): bool
     {
         if ($this->primary->validateRequiredClaims($udb3Token)) {
             return true;
@@ -59,7 +59,7 @@ class FallbackJwtDecoder implements JwtDecoderServiceInterface
         return $this->fallbackDecoder->validateRequiredClaims($udb3Token);
     }
 
-    public function verifySignature(Udb3TokenInterface $udb3Token): bool
+    public function verifySignature(Udb3Token $udb3Token): bool
     {
         if ($this->primary->verifySignature($udb3Token)) {
             return true;
