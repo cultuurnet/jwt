@@ -4,6 +4,7 @@ namespace CultuurNet\UDB3\Jwt\Silex;
 
 use CultuurNet\SymfonySecurityJwt\Authentication\JwtAuthenticationProvider;
 use CultuurNet\SymfonySecurityJwt\Firewall\JwtListener;
+use CultuurNet\UDB3\Jwt\FallbackJwtDecoder;
 use CultuurNet\UDB3\Jwt\JwtDecoderService;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Key;
@@ -21,53 +22,46 @@ class JwtServiceProvider implements ServiceProviderInterface
     {
         $app['security.authentication_listener.factory.jwt'] = $app->protect(
             function ($name, $options) use ($app) {
-                $app['security.validation_data.' . $name . '.jwt'] = $app->share(
-                    function () use ($options) {
-                        $validationData = new ValidationData();
-
-                        $claims = isset($options['validation']) ? $options['validation'] : [];
-                        foreach ($claims as $claim => $value) {
-                            switch ($claim) {
-                                case 'jti':
-                                    $validationData->setId($value);
-                                    break;
-
-                                case 'iss':
-                                    $validationData->setIssuer($value);
-                                    break;
-
-                                case 'aud':
-                                    $validationData->setAudience($value);
-                                    break;
-
-                                case 'sub':
-                                    $validationData->setSubject($value);
-                                    break;
-
-                                case 'current_time':
-                                    $validationData->setCurrentTime($value);
-                                    break;
-                            }
+                $validationData = function (array $claims) {
+                    $validationData = new ValidationData();
+                    foreach ($claims as $claim => $value) {
+                        switch ($claim) {
+                            case 'jti':
+                                $validationData->setId($value);
+                                break;
+                            case 'iss':
+                                $validationData->setIssuer($value);
+                                break;
+                            case 'aud':
+                                $validationData->setAudience($value);
+                                break;
+                            case 'sub':
+                                $validationData->setSubject($value);
+                                break;
+                            case 'current_time':
+                                $validationData->setCurrentTime($value);
+                                break;
                         }
-
-                        return $validationData;
                     }
-                );
-
-                $app['security.public_key.' . $name . '.jwt'] = $app->share(
-                    function () use ($options) {
-                        return new Key($options['public_key']);
-                    }
-                );
-
+                    return $validationData;
+                };
                 $app['security.token_decoder.' . $name . '.jwt'] = $app->share(
-                    function (Application $app) use ($name, $options) {
-                        return new JwtDecoderService(
-                            new Parser(),
-                            $app['security.validation_data.' . $name . '.jwt'],
-                            new Sha256(),
-                            $app['security.public_key.' . $name . '.jwt'],
-                            $options['required_claims']
+                    function (Application $app) use ($name, $options, $validationData) {
+                        return new FallbackJwtDecoder(
+                            new JwtDecoderService(
+                                new Parser(),
+                                $validationData($options['uitid']['validation'] ?? []),
+                                new Sha256(),
+                                new Key($options['uitid']['public_key']),
+                                $options['uitid']['required_claims']
+                            ),
+                            new JwtDecoderService(
+                                new Parser(),
+                                $validationData($options['auth0']['validation'] ?? []),
+                                new Sha256(),
+                                new Key($options['auth0']['public_key']),
+                                $options['auth0']['required_claims']
+                            )
                         );
                     }
                 );
