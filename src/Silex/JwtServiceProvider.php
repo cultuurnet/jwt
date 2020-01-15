@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\SilexServiceProviderJwt;
+namespace CultuurNet\UDB3\Jwt\Silex;
 
 use CultuurNet\SymfonySecurityJwt\Authentication\JwtAuthenticationProvider;
 use CultuurNet\SymfonySecurityJwt\Firewall\JwtListener;
