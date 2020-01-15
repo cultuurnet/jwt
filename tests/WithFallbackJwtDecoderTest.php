@@ -38,7 +38,7 @@ class WithFallbackJwtDecoderTest extends \PHPUnit_Framework_TestCase
 
         $this->primaryDecoder = $this->prophesize(JwtDecoderServiceInterface::class);
         $this->secondaryDecoder = $this->prophesize(JwtDecoderServiceInterface::class);
-        $this->token = new Token();
+        $this->token = new Udb3Token(new Token());
     }
 
     /**

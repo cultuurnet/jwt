@@ -2,7 +2,6 @@
 
 namespace CultuurNet\UDB3\Jwt;
 
-use Lcobucci\JWT\Token as Jwt;
 use ValueObjects\StringLiteral\StringLiteral;
 
 /**
@@ -33,10 +32,7 @@ class FallbackJwtDecoder implements JwtDecoderServiceInterface
         $this->fallbackDecoder = $newDecoderService;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function parse(StringLiteral $tokenString)
+    public function parse(StringLiteral $tokenString) : Udb3TokenInterface
     {
         try {
             return $this->primary->parse($tokenString);
@@ -45,10 +41,7 @@ class FallbackJwtDecoder implements JwtDecoderServiceInterface
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function validateData(Jwt $jwt)
+    public function validateData(Udb3TokenInterface $jwt) : bool
     {
         if ($this->primary->validateData($jwt)) {
             return true;
@@ -57,27 +50,21 @@ class FallbackJwtDecoder implements JwtDecoderServiceInterface
         return $this->fallbackDecoder->validateData($jwt);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function validateRequiredClaims(Jwt $jwt)
+    public function validateRequiredClaims(Udb3TokenInterface $udb3Token): bool
     {
-        if ($this->primary->validateRequiredClaims($jwt)) {
+        if ($this->primary->validateRequiredClaims($udb3Token)) {
             return true;
         }
 
-        return $this->fallbackDecoder->validateRequiredClaims($jwt);
+        return $this->fallbackDecoder->validateRequiredClaims($udb3Token);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function verifySignature(Jwt $jwt)
+    public function verifySignature(Udb3TokenInterface $udb3Token): bool
     {
-        if ($this->primary->verifySignature($jwt)) {
+        if ($this->primary->verifySignature($udb3Token)) {
             return true;
         }
 
-        return $this->fallbackDecoder->verifySignature($jwt);
+        return $this->fallbackDecoder->verifySignature($udb3Token);
     }
 }

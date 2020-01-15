@@ -5,7 +5,6 @@ namespace CultuurNet\UDB3\Jwt;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
-use Lcobucci\JWT\Token as Jwt;
 use Lcobucci\JWT\ValidationData;
 use ValueObjects\StringLiteral\StringLiteral;
 
@@ -63,38 +62,25 @@ class JwtDecoderService implements JwtDecoderServiceInterface
         }
     }
 
-    /**
-     * @param StringLiteral $tokenString
-     * @return Jwt
-     */
-    public function parse(StringLiteral $tokenString)
+    public function parse(StringLiteral $tokenString): Udb3TokenInterface
     {
         try {
-            return $this->parser->parse(
-                $tokenString->toNative()
-            );
+            $token = $this->parser->parse($tokenString->toNative());
+            return new Udb3Token($token);
         } catch (\InvalidArgumentException $e) {
             throw new JwtParserException($e);
         }
     }
 
-    /**
-     * @param Jwt $jwt
-     * @return bool
-     */
-    public function validateData(Jwt $jwt)
+    public function validateData(Udb3TokenInterface $udb3Token): bool
     {
-        return $jwt->validate($this->validationData);
+        return $udb3Token->jwtToken()->validate($this->validationData);
     }
 
-    /**
-     * @param Jwt $jwt
-     * @return bool
-     */
-    public function validateRequiredClaims(Jwt $jwt)
+    public function validateRequiredClaims(Udb3TokenInterface $udb3Token): bool
     {
         foreach ($this->requiredClaims as $claim) {
-            if (!$jwt->hasClaim($claim)) {
+            if (!$udb3Token->jwtToken()->hasClaim($claim)) {
                 return false;
             }
         }
@@ -102,13 +88,9 @@ class JwtDecoderService implements JwtDecoderServiceInterface
         return true;
     }
 
-    /**
-     * @param Jwt $jwt
-     * @return bool
-     */
-    public function verifySignature(Jwt $jwt)
+    public function verifySignature(Udb3TokenInterface $udb3Token): bool
     {
-        return $jwt->verify(
+        return $udb3Token->jwtToken()->verify(
             $this->signer,
             $this->publicKey
         );
