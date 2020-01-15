@@ -19,10 +19,12 @@
         "squizlabs/php_codesniffer": "~2.3",
         "phing/phing": "~2.11",
         "satooshi/php-coveralls": "~0.7",
-        "silex/silex": "^1.3"
+        "silex/silex": "^1.3",
+        "symfony/security": "~2.7.3"
     },
     "suggest": {
-        "silex/silex": "To use the JwtServiceProvider"
+        "silex/silex": "To use the provided JwtServiceProvider",
+        "symfony/security": "To integrate with Symfony's firewall"
     },
     "autoload": {
         "psr-4": {
