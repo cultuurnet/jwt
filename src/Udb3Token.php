@@ -45,7 +45,20 @@ class Udb3Token
             return $this->token->getClaim('uid');
         }
 
-        return $this->token->getClaim('sub');
+        if ($this->token->hasClaim('https://publiq.be/uitidv1id')) {
+            return $this->token->getClaim('https://publiq.be/uitidv1id');
+        }
+
+        $sub = $this->token->getClaim('sub');
+
+        $subParts = explode('|', $sub);
+
+        if (count($subParts) === 1) {
+            return $sub;
+        }
+
+        array_shift($subParts);
+        return implode('|', $subParts);
     }
 
     public function jwtToken(): Token
