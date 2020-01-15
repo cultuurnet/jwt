@@ -31,7 +31,11 @@ class Udb3Token
             return $this->token->getClaim('nick');
         }
 
-        return $this->token->getClaim('nickname');
+        if ($this->token->hasClaim('nickname')) {
+            return $this->token->getClaim('nickname');
+        }
+
+        return $this->token->getClaim('email');
     }
 
     public function email(): string

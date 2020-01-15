@@ -101,7 +101,7 @@ final class Udb3TokenTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_nick_claim_as_nickname_if_present(): void
+    public function it_returns_nick_claim_as_username_if_present(): void
     {
         $token = new Udb3Token(
             new Token(
@@ -109,6 +109,7 @@ final class Udb3TokenTest extends TestCase
                 [
                     'nick' => new Basic('nick', 'zvoni'),
                     'nickname' => new Basic('nickname', 'zvonimir'),
+                    'email' => new Basic('email', 'zvonimir@madewithlove.be'),
                 ]
             )
         );
@@ -119,17 +120,35 @@ final class Udb3TokenTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_nickname_claim_as_nickname(): void
+    public function it_returns_nickname_claim_as_username_if_present(): void
     {
         $token = new Udb3Token(
             new Token(
                 ['alg' => 'none'],
                 [
                     'nickname' => new Basic('nickname', 'zvonimir'),
+                    'email' => new Basic('email', 'zvonimir@madewithlove.be'),
                 ]
             )
         );
 
         $this->assertEquals('zvonimir', $token->userName());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_email_claim_as_username_as_fallback(): void
+    {
+        $token = new Udb3Token(
+            new Token(
+                ['alg' => 'none'],
+                [
+                    'email' => new Basic('email', 'zvonimir@madewithlove.be'),
+                ]
+            )
+        );
+
+        $this->assertEquals('zvonimir@madewithlove.be', $token->userName());
     }
 }
