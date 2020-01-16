@@ -2,32 +2,15 @@
 
 namespace CultuurNet\UDB3\Jwt;
 
-use Lcobucci\JWT\Token as Jwt;
 use ValueObjects\StringLiteral\StringLiteral;
 
 interface JwtDecoderServiceInterface
 {
-    /**
-     * @param StringLiteral $tokenString
-     * @return Jwt
-     */
-    public function parse(StringLiteral $tokenString);
+    public function parse(StringLiteral $tokenString) : Udb3Token;
 
-    /**
-     * @param Jwt $jwt
-     * @return bool
-     */
-    public function validateData(Jwt $jwt);
+    public function validateData(Udb3Token $jwt) : bool;
 
-    /**
-     * @param Jwt $jwt
-     * @return bool
-     */
-    public function validateRequiredClaims(Jwt $jwt);
+    public function validateRequiredClaims(Udb3Token $udb3Token) : bool;
 
-    /**
-     * @param Jwt $jwt
-     * @return bool
-     */
-    public function verifySignature(Jwt $jwt);
+    public function verifySignature(Udb3Token $udb3Token) : bool;
 }

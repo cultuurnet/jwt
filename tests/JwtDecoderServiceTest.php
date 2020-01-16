@@ -129,11 +129,13 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
         $hash = $decoder->base64UrlDecode($this->payload[2]);
         $this->signature = new Signature($hash);
 
-        $this->token = new Jwt(
-            $this->tokenHeaders,
-            $this->tokenClaimsAsValueObjects,
-            $this->signature,
-            $this->payload
+        $this->token = new Udb3Token(
+            new Jwt(
+                $this->tokenHeaders,
+                $this->tokenClaimsAsValueObjects,
+                $this->signature,
+                $this->payload
+            )
         );
 
         $this->parser = new Parser();
@@ -195,7 +197,7 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertTrue(
-            $this->decoderService->validateData($unexpiredToken)
+            $this->decoderService->validateData(new Udb3Token($unexpiredToken))
         );
 
         // Change the iss claim of the unexpired token, which should cause
@@ -210,7 +212,7 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertFalse(
-            $this->decoderService->validateData($unexpiredTokenWithDifferentIssuer)
+            $this->decoderService->validateData(new Udb3Token($unexpiredTokenWithDifferentIssuer))
         );
     }
 
@@ -240,9 +242,9 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertTrue($decoderWithoutRequiredClaims->validateRequiredClaims($this->token));
-        $this->assertTrue($decoderWithoutRequiredClaims->validateRequiredClaims($tokenWithoutNick));
+        $this->assertTrue($decoderWithoutRequiredClaims->validateRequiredClaims(new Udb3Token($tokenWithoutNick)));
         $this->assertTrue($this->decoderService->validateRequiredClaims($this->token));
-        $this->assertFalse($this->decoderService->validateRequiredClaims($tokenWithoutNick));
+        $this->assertFalse($this->decoderService->validateRequiredClaims(new Udb3Token($tokenWithoutNick)));
     }
 
     /**
@@ -252,7 +254,9 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue(
             $this->decoderService->verifySignature(
-                $this->parser->parse($this->tokenString)
+                new Udb3Token(
+                    $this->parser->parse($this->tokenString)
+                )
             )
         );
 
@@ -272,7 +276,9 @@ class JwtDecoderServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse(
             $this->decoderService->verifySignature(
-                $this->parser->parse($manipulatedTokenString)
+                new Udb3Token(
+                    $this->parser->parse($manipulatedTokenString)
+                )
             )
         );
     }
