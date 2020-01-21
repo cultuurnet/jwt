@@ -20,7 +20,10 @@ final class Udb3TokenTest extends TestCase
                 ['alg' => 'none'],
                 [
                     'uid' => new Basic('uid', '6e3ef9b3-e37b-428e-af30-05f3a96dbbe4'),
-                    'https://publiq.be/uitidv1id' => new Basic('https://publiq.be/uitidv1id', 'b55f041e-5c5e-4850-9fb8-8cf73d538c56'),
+                    'https://publiq.be/uitidv1id' => new Basic(
+                        'https://publiq.be/uitidv1id',
+                        'b55f041e-5c5e-4850-9fb8-8cf73d538c56'
+                    ),
                     'sub' => new Basic('sub', 'auth0|ce6abd8f-b1e2-4bce-9dde-08af64438e87'),
                 ]
             )
@@ -38,7 +41,10 @@ final class Udb3TokenTest extends TestCase
             new Token(
                 ['alg' => 'none'],
                 [
-                    'https://publiq.be/uitidv1id' => new Basic('https://publiq.be/uitidv1id', 'b55f041e-5c5e-4850-9fb8-8cf73d538c56'),
+                    'https://publiq.be/uitidv1id' => new Basic(
+                        'https://publiq.be/uitidv1id',
+                        'b55f041e-5c5e-4850-9fb8-8cf73d538c56'
+                    ),
                     'sub' => new Basic('sub', 'auth0|ce6abd8f-b1e2-4bce-9dde-08af64438e87'),
                 ]
             )
