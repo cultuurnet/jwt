@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "php": ">=7.1",
         "cultuurnet/clock": "~0.1",
         "lcobucci/jwt": "~3.1",
         "cultuurnet/valueobjects": "~3.0"
