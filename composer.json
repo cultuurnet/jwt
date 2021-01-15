@@ -16,7 +16,7 @@
         "cultuurnet/valueobjects": "~3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.7",
+        "phpunit/phpunit": "^7.5",
         "squizlabs/php_codesniffer": "~2.3",
         "phing/phing": "~2.11",
         "silex/silex": "^1.3",
