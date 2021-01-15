@@ -5,13 +5,15 @@ namespace CultuurNet\UDB3\Jwt\Symfony\Authentication;
 use CultuurNet\UDB3\Jwt\JwtDecoderServiceInterface;
 use CultuurNet\UDB3\Jwt\Udb3Token;
 use Lcobucci\JWT\Token as Jwt;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class JwtAuthenticationProviderTest extends \PHPUnit_Framework_TestCase
+class JwtAuthenticationProviderTest extends TestCase
 {
     /**
-     * @var JwtDecoderServiceInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var JwtDecoderServiceInterface|MockObject
      */
     private $decoderService;
 

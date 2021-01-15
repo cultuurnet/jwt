@@ -6,6 +6,8 @@ use CultuurNet\UDB3\Jwt\Symfony\Authentication\JwtUserToken;
 use CultuurNet\UDB3\Jwt\JwtDecoderServiceInterface;
 use CultuurNet\UDB3\Jwt\Udb3Token;
 use Lcobucci\JWT\Token as Jwt;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -14,20 +16,20 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use ValueObjects\StringLiteral\StringLiteral;
 
-class JwtListenerTest extends \PHPUnit_Framework_TestCase
+class JwtListenerTest extends TestCase
 {
     /**
-     * @var TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenStorageInterface|MockObject
      */
     private $tokenStorage;
 
     /**
-     * @var AuthenticationManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthenticationManagerInterface|MockObject
      */
     private $authenticationManager;
 
     /**
-     * @var JwtDecoderServiceInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var JwtDecoderServiceInterface|MockObject
      */
     private $jwtDecoderService;
 
@@ -37,7 +39,7 @@ class JwtListenerTest extends \PHPUnit_Framework_TestCase
     private $listener;
 
     /**
-     * @var GetResponseEvent|\PHPUnit_Framework_MockObject_MockObject
+     * @var GetResponseEvent|MockObject
      */
     private $getResponseEvent;
 

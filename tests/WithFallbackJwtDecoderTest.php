@@ -3,10 +3,11 @@
 namespace CultuurNet\UDB3\Jwt;
 
 use Lcobucci\JWT\Token;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use ValueObjects\StringLiteral\StringLiteral;
 
-class WithFallbackJwtDecoderTest extends \PHPUnit_Framework_TestCase
+class WithFallbackJwtDecoderTest extends TestCase
 {
     /**
      * @var StringLiteral

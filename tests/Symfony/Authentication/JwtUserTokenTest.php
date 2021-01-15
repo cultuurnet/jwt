@@ -4,8 +4,9 @@ namespace CultuurNet\UDB3\Jwt\Symfony\Authentication;
 
 use CultuurNet\UDB3\Jwt\Udb3Token;
 use Lcobucci\JWT\Token as Jwt;
+use PHPUnit\Framework\TestCase;
 
-class JwtUserTokenTest extends \PHPUnit_Framework_TestCase
+class JwtUserTokenTest extends TestCase
 {
     /**
      * @test

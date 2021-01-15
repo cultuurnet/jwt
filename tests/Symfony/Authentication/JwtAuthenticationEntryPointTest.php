@@ -2,10 +2,11 @@
 
 namespace CultuurNet\UDB3\Jwt\Symfony\Authentication;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class JwtAuthenticationEntryPointTest extends \PHPUnit_Framework_TestCase
+class JwtAuthenticationEntryPointTest extends TestCase
 {
     /**
      * @var JwtAuthenticationEntryPoint
