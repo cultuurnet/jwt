@@ -5,20 +5,20 @@
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "Bert Ramakers",
-            "email": "bert@2dotstwice.be"
+            "name": "publiq vzw",
+            "email": "info@publiq.be"
         }
     ],
     "require": {
+        "php": ">=7.1",
         "cultuurnet/clock": "~0.1",
-        "lcobucci/jwt": "~3.1",
+        "lcobucci/jwt": "3.3.*",
         "cultuurnet/valueobjects": "~3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.7",
+        "phpunit/phpunit": "^7.5",
         "squizlabs/php_codesniffer": "~2.3",
         "phing/phing": "~2.11",
-        "satooshi/php-coveralls": "~0.7",
         "silex/silex": "^1.3",
         "symfony/security": "~2.7.3"
     },
@@ -42,5 +42,8 @@
         "branch-alias": {
             "dev-master": "0.x-dev"
         }
+    },
+    "scripts": {
+        "phing": "./vendor/bin/phing test"
     }
 }

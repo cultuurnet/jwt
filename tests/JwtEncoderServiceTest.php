@@ -6,9 +6,10 @@ use CultuurNet\Clock\FrozenClock;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
+use PHPUnit\Framework\TestCase;
 use ValueObjects\Number\Integer as IntegerLiteral;
 
-class JwtEncoderServiceTest extends \PHPUnit_Framework_TestCase
+class JwtEncoderServiceTest extends TestCase
 {
     /**
      * @var string
